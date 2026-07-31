@@ -1,0 +1,40 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+/dist/
+
+# production
+/build
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.next-codex-dev.*
+.vite-codex-dev.*
+.vite-dev.*
+.vite-map-dev.*
+*.log
+
+# local env files
+.env*.local
+.env
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# archives & temporary
+*.zip
+.DS_Store
