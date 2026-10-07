@@ -74,8 +74,10 @@ const taxiServiceSchema = {
   areaServed: ['Chennai', 'Coimbatore', 'Madurai', 'Trichy', 'Karaikudi', 'Salem', 'Pondicherry', 'Tamil Nadu'],
   address: {
     '@type': 'PostalAddress',
+    streetAddress: 'No. 690/990, Samathuvapuram, Amaravathipudur Post',
     addressLocality: brand.city,
     addressRegion: brand.state,
+    postalCode: brand.pincode,
     addressCountry: 'IN',
   },
   openingHoursSpecification: [

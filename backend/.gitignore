@@ -1,0 +1,10 @@
+/vendor/
+/.env
+/.env.*
+!/.env.example
+/.phpunit.cache/
+/.phpunit.result.cache
+/public/storage
+/database/*.sqlite*
+/storage/*.key
+/storage/framework/testing/

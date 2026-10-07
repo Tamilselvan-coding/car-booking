@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -39,7 +39,7 @@ type RouteState = {
  * live driver match.
  */
 export function BookingModal() {
-  const { isOpen, close } = useBookingModal();
+  const { isOpen, close, initialData } = useBookingModal();
   const dialogRef = useRef<HTMLDivElement>(null);
 
   const [step, setStep] = useState(0);
@@ -62,6 +62,37 @@ export function BookingModal() {
   const [submitted, setSubmitted] = useState(false);
   const [distanceConfirmed, setDistanceConfirmed] = useState(true);
   const [routeState, setRouteState] = useState<RouteState>({ status: 'idle', note: '' });
+
+  // Pre-fill from special offer when opened via offer slider
+  useEffect(() => {
+    if (isOpen && initialData) {
+      if (initialData.pickup) {
+        setPickup(initialData.pickup);
+        const loc = getLocalLocationSelection(initialData.pickup);
+        if (loc) setPickupLocation(loc);
+      }
+      if (initialData.drop) {
+        setDrop(initialData.drop);
+        const loc = getLocalLocationSelection(initialData.drop);
+        if (loc) setDropLocation(loc);
+      }
+      if (initialData.vehicle) {
+        const found = vehicleRates.find((v) =>
+          initialData.vehicle?.toLowerCase().includes(v.name.toLowerCase()) ||
+          v.name.toLowerCase().includes(initialData.vehicle?.toLowerCase() || '')
+        );
+        if (found) setVehicle(found.name);
+      }
+      if (
+        initialData.tripType === 'One Way' ||
+        initialData.tripType === 'Round Trip' ||
+        initialData.tripType === 'Airport'
+      ) {
+        setTripType(initialData.tripType);
+      }
+    }
+  }, [isOpen, initialData]);
+
 
   const selectedVehicle = vehicleRates.find((item) => item.name === vehicle) ?? vehicleRates[0];
   const fareEstimate = useMemo(
@@ -199,6 +230,26 @@ export function BookingModal() {
 
   const handleConfirm = () => {
     setSubmitted(true);
+    // Save to backend database
+    fetch('/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        customer_name: name || 'Customer',
+        phone,
+        pickup,
+        drop,
+        vehicle,
+        trip_type: tripType,
+        date: date || new Date().toISOString().slice(0, 10),
+        time: time || '10:00',
+        estimated_fare: fareEstimate.totalFare,
+        offer_code: initialData?.offerCode,
+        offer_price: initialData?.offerPrice,
+        source: initialData?.offerCode ? 'Offer Slider' : 'Direct Booking',
+      }),
+    }).catch((err) => console.error('Failed to save booking order to backend:', err));
+
     window.open(waLink, '_blank', 'noopener,noreferrer');
   };
 
@@ -303,6 +354,21 @@ export function BookingModal() {
             <>
               {step === 0 ? (
                 <div className="grid gap-4">
+                  {initialData?.offerCode ? (
+                    <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-amber-300 bg-amber-50 p-2.5 text-xs font-bold text-amber-950">
+                      <div className="flex items-center gap-1.5">
+                        <span className="rounded bg-amber-400 px-1.5 py-0.5 text-[10px] font-black uppercase text-zinc-950">
+                          Special Offer
+                        </span>
+                        <span>Ref: <strong className="font-mono">{initialData.offerCode}</strong></span>
+                      </div>
+                      {initialData.offerPrice ? (
+                        <span className="font-black text-teal-800">
+                          Deal Fare: ₹{initialData.offerPrice.toLocaleString('en-IN')}
+                        </span>
+                      ) : null}
+                    </div>
+                  ) : null}
                   <div className="grid grid-cols-3 gap-2 rounded-lg bg-zinc-100 p-1">
                     {tripTypes.map((item) => (
                       <button

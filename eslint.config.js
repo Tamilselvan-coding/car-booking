@@ -2,7 +2,7 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 
 export default defineConfig([
-  globalIgnores(['.next', 'dist', 'node_modules']),
+  globalIgnores(['.next', 'dist', 'node_modules', 'backend/vendor/**', 'backend/storage/**']),
   ...nextVitals,
   {
     rules: {

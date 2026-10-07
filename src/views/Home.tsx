@@ -90,6 +90,7 @@ export function Home() {
         </div>
       </section>
 
+
       <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
         <div className="stagger-reveal grid gap-8 md:grid-cols-3">
           {trustPoints.map((point) => (

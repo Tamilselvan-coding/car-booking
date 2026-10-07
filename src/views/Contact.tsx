@@ -6,7 +6,7 @@ import { TamilNaduMap } from '../components/TamilNaduMap';
 import { brand, whatsappMessage } from '../content';
 
 export function Contact() {
-  const [selectedCity, setSelectedCity] = useState('Chennai');
+  const [selectedCity, setSelectedCity] = useState(brand.city);
   const waLink = `https://wa.me/${brand.cleanPhone}?text=${encodeURIComponent(
     `${whatsappMessage} My city: ${selectedCity}.`,
   )}`;

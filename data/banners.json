@@ -1,0 +1,95 @@
+[
+  {
+    "id": 4,
+    "title": "Chennai to Madurai Special Drop",
+    "from_city": "Chennai",
+    "to_city": "Coimbatore",
+    "vehicle_type": "SUV (Ertiga)",
+    "available_vehicles": [
+      "Sedan (Dzire / Etios)",
+      "SUV (Ertiga)",
+      "Innova Crysta"
+    ],
+    "trip_type": "Round Trip",
+    "actual_price": 6800,
+    "offer_price": 4999,
+    "from_date": "2026-10-01",
+    "to_date": "2026-10-15",
+    "quotation_ref": "QT-CHM-622",
+    "quotation_details": "Includes toll allowance, ₹400 driver bata, AC ride, zero surge.",
+    "banner_image": "/images/special-offer-banner.jpg",
+    "is_active": true,
+    "created_at": "2026-10-01T06:26:55.280Z",
+    "updated_at": "2026-10-01T06:26:55.280Z"
+  },
+  {
+    "id": 1,
+    "title": "Chennai to Madurai Festive Special Drop",
+    "from_city": "Chennai",
+    "to_city": "Madurai",
+    "vehicle_type": "Sedan (Dzire / Etios)",
+    "available_vehicles": [
+      "Sedan (Dzire / Etios)",
+      "SUV (Ertiga)",
+      "Innova Crysta",
+      "Tempo Traveller"
+    ],
+    "trip_type": "One Way",
+    "actual_price": 6800,
+    "offer_price": 4999,
+    "from_date": "2026-10-01",
+    "to_date": "2026-10-15",
+    "quotation_ref": "QT-CHM-2026-778",
+    "quotation_details": "All-inclusive toll allowance, ₹400 driver bata included, sanitized AC car, zero hidden charges.",
+    "banner_image": "/images/special-offer-banner.jpg",
+    "is_active": true,
+    "created_at": "2026-10-01T06:00:00.000Z",
+    "updated_at": "2026-10-01T06:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "title": "Trichy to Chennai Express One Way Drop",
+    "from_city": "Trichy",
+    "to_city": "Chennai",
+    "vehicle_type": "Sedan (Dzire / Etios)",
+    "available_vehicles": [
+      "Sedan (Dzire / Etios)",
+      "SUV (Ertiga)",
+      "Innova Crysta"
+    ],
+    "trip_type": "One Way",
+    "actual_price": 5400,
+    "offer_price": 3999,
+    "from_date": "2026-09-28",
+    "to_date": "2026-10-20",
+    "quotation_ref": "QT-TRC-2026-902",
+    "quotation_details": "Doorstep pickup anywhere in Trichy, express highway drop to Chennai with driver allowance.",
+    "banner_image": "/images/destination-trichy.png",
+    "is_active": true,
+    "created_at": "2026-10-01T06:30:00.000Z",
+    "updated_at": "2026-10-01T06:30:00.000Z"
+  },
+  {
+    "id": 3,
+    "title": "Coimbatore to Bangalore Highway Special",
+    "from_city": "Coimbatore",
+    "to_city": "Bangalore",
+    "vehicle_type": "SUV (Ertiga)",
+    "available_vehicles": [
+      "Sedan (Dzire / Etios)",
+      "SUV (Ertiga)",
+      "Innova Crysta"
+    ],
+    "trip_type": "One Way",
+    "actual_price": 7800,
+    "offer_price": 5999,
+    "from_date": "2026-10-05",
+    "to_date": "2026-10-25",
+    "quotation_ref": "QT-COB-2026-301",
+    "quotation_details": "Interstate tax included, clean 7-seater SUV, 24/7 highway assistance.",
+    "banner_image": "/images/destination-coimbatore.png",
+    "is_active": false,
+    "created_at": "2026-10-01T07:00:00.000Z",
+    "updated_at": "2026-10-01T07:00:00.000Z"
+  }
+]

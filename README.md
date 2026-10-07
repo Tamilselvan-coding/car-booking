@@ -30,6 +30,10 @@ npm run build
 npm test
 ```
 
+## Offer banner backend
+
+The Laravel/MySQL offer banner API lives in [`backend/`](backend/README.md). Its guide includes setup, a file-by-file source map, admin authentication, all CRUD endpoints, public response examples, and an importable Postman collection. The frontend can read `GET /api/banners/active` from the configured backend origin.
+
 ## Replace before publishing
 
 - Brand name in `src/content.ts`

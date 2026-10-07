@@ -23,9 +23,14 @@ export const brand = {
   phone: '+91 98765 43210',
   cleanPhone: '919876543210',
   email: 'booking@chettinadexpress.com',
-  city: 'Chennai',
+  city: 'Karaikudi',
   state: 'Tamil Nadu',
-  address: '14 Anna Salai, Teynampet, Chennai, Tamil Nadu 600018',
+  pincode: '630301',
+  taluk: 'Karaikudi Taluk',
+  district: 'Sivagangai District',
+  postOffice: 'Amaravathipudur Post',
+  address:
+    'No. 690/990, Samathuvapuram, Amaravathipudur Post, Amaravathipudur, Karaikudi Taluk, Sivagangai District, Tamil Nadu 630301',
   hours: 'Open 24 hours, 7 days a week',
   domain: 'https://chettinadexpress.com',
 };
@@ -483,6 +488,9 @@ export const addressSuggestions: Array<{
   detail: string;
   keywords: string[];
 }> = [
+  { label: 'Samathuvapuram, Amaravathipudur, Karaikudi', city: 'Karaikudi', detail: 'Amaravathipudur Post, Karaikudi Taluk', keywords: ['samathuvapuram', 'amaravathipudur', 'karaikudi'] },
+  { label: 'Karaikudi New Bus Stand, Karaikudi', city: 'Karaikudi', detail: 'Bus stand', keywords: ['karaikudi', 'bus stand'] },
+  { label: 'Karaikudi Junction Railway Station, Karaikudi', city: 'Karaikudi', detail: 'Railway station', keywords: ['karaikudi', 'railway', 'station'] },
   { label: 'Chennai Airport (MAA), Chennai', city: 'Chennai', detail: 'Airport', keywords: ['meenambakkam', 'airport'] },
   { label: 'Chennai Central Railway Station, Chennai', city: 'Chennai', detail: 'Railway station', keywords: ['central', 'railway'] },
   { label: 'T Nagar, Chennai', city: 'Chennai', detail: 'Shopping and pickup area', keywords: ['tnagar', 'thyagaraya nagar'] },

@@ -3,9 +3,10 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState, type ReactNode } from 'react';
-import { CarFront, Menu, MessageCircle, Phone, X } from 'lucide-react';
+import { CarFront, Menu, MessageCircle, Phone, X, ShieldCheck } from 'lucide-react';
 import { brand, navItems, whatsappMessage } from '../content';
 import { useBookingModal } from '../context/BookingModalContext';
+import { BrandLogo } from './BrandLogo';
 
 const getPathOnly = (href: string) => href.split('#')[0] || '/';
 
@@ -74,18 +75,13 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         </div>
 
         <div className="border-b border-zinc-100 bg-white">
-          <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+          <div className="mx-auto flex h-[76px] sm:h-[84px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
             <Link
               href="/"
-              className="flex min-w-0 items-center gap-3 font-black tracking-normal"
+              className="flex shrink-0 items-center py-1 transition-opacity hover:opacity-95"
               onClick={() => setMenuOpen(false)}
             >
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-zinc-950 text-base font-black text-amber-400 shadow-lg shadow-zinc-950/20 ring-2 ring-amber-300/60">CE</span>
-              <span className="min-w-0 leading-tight">
-                <span className="block text-xl font-black text-zinc-950">Chettinad</span>
-                <span className="block text-xs font-black uppercase tracking-[0.18em] text-teal-700">Express</span>
-                <span className="hidden text-[11px] font-bold text-zinc-500 sm:block">Pay just for the drop</span>
-              </span>
+              <BrandLogo variant="light" size="md" />
             </Link>
 
             <nav aria-label="Main" className="hidden items-center gap-1 xl:flex">
@@ -118,16 +114,18 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               </a>
             </div>
 
-            <button
-              type="button"
-              className="grid h-11 w-11 place-items-center rounded-lg border border-zinc-200 bg-white shadow-sm xl:hidden"
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-              onClick={() => setMenuOpen((open) => !open)}
-            >
-              {menuOpen ? <X aria-hidden="true" className="h-5 w-5" /> : <Menu aria-hidden="true" className="h-5 w-5" />}
-            </button>
+            <div className="flex items-center gap-2 xl:hidden">
+              <button
+                type="button"
+                className="grid h-11 w-11 place-items-center rounded-lg border border-zinc-200 bg-white shadow-sm"
+                aria-expanded={menuOpen}
+                aria-controls="mobile-menu"
+                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                onClick={() => setMenuOpen((open) => !open)}
+              >
+                {menuOpen ? <X aria-hidden="true" className="h-5 w-5" /> : <Menu aria-hidden="true" className="h-5 w-5" />}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -197,7 +195,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         </div>
         <div className="mx-auto grid max-w-6xl gap-10 border-t border-white/10 px-4 py-12 sm:px-6 md:grid-cols-4">
           <div>
-            <p className="text-lg font-black text-white">Chettinad Express</p>
+            <BrandLogo variant="dark" size="sm" />
             <p className="mt-3 text-sm leading-6 text-zinc-400">
               Clean cabs, verified drivers, and live booking support for Tamil Nadu routes.
             </p>
@@ -231,8 +229,15 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             </ul>
           </div>
         </div>
-        <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-zinc-500 sm:px-6">
-          (c) {new Date().getFullYear()} Chettinad Express. All rights reserved.
+        <div className="border-t border-white/10 px-4 py-4 flex flex-wrap items-center justify-between gap-3 text-xs text-zinc-500 sm:px-6">
+          <span>(c) {new Date().getFullYear()} Chettinad Express. All rights reserved.</span>
+          <Link
+            href="/admin"
+            className="inline-flex items-center gap-1.5 text-zinc-400 hover:text-amber-400 font-bold transition"
+          >
+            <ShieldCheck className="h-3.5 w-3.5 text-amber-500" />
+            <span>Admin Approval Portal (அட்மின் பேனல்)</span>
+          </Link>
         </div>
       </footer>
 
