@@ -20,8 +20,8 @@ import {
 
 export const brand = {
   name: 'Chettinad Express',
-  phone: '+91 98765 43210',
-  cleanPhone: '919876543210',
+  phone: '+91 63853 26954',
+  cleanPhone: '916385326954',
   email: 'booking@chettinadexpress.com',
   city: 'Karaikudi',
   state: 'Tamil Nadu',
@@ -51,44 +51,48 @@ export const tripTypes = ['One Way', 'Round Trip', 'Airport'] as const;
 export const vehicleRates = [
   {
     name: 'Sedan',
-    examples: 'Dzire, Etios, Xcent, Aspire, Zest',
+    displayName: 'Sedan (4+1)',
+    examples: 'Dzire,Etios,Xcent,Aspire & Zest',
     seats: '4+1 seats',
     oneWay: 15,
     roundTrip: 13,
-    dayRent: 'Drop min 130 km',
+    dayRent: 'Drop min 100 km',
     bestFor: 'Solo, family, business travel',
     luggage: '2 medium bags',
     icon: Car,
   },
   {
     name: 'SUV',
-    examples: 'Ertiga, Kia Carens, Enjoy, Rumion',
+    displayName: 'SUV (6+1)',
+    examples: 'Ertiga,Kia Carens,Enjoy & Rumion',
     seats: '6+1 seats',
     oneWay: 20,
     roundTrip: 18,
-    dayRent: 'Drop min 130 km',
+    dayRent: 'Drop min 100 km',
     bestFor: 'Families with luggage',
     luggage: '4 medium bags',
     icon: Luggage,
   },
   {
     name: 'MUV',
-    examples: 'Innova, Xylo, Marazzo',
+    displayName: 'MUV (7+1)',
+    examples: 'Innova, Xylo & Marazzo',
     seats: '7+1 seats',
     oneWay: 21,
     roundTrip: 18,
-    dayRent: 'Drop min 130 km',
+    dayRent: 'Drop min 100 km',
     bestFor: 'Large family and group travel',
     luggage: '5 large bags',
     icon: Users,
   },
   {
     name: 'Innova Crysta',
+    displayName: 'Innova Crysta (Innova Crysta)',
     examples: 'Innova Crysta',
     seats: '6+1 seats',
     oneWay: 26,
     roundTrip: 23,
-    dayRent: 'Drop min 130 km',
+    dayRent: 'Drop min 100 km',
     bestFor: 'Premium comfort outstation rides',
     luggage: '5 large bags',
     icon: Users,
@@ -99,9 +103,21 @@ export type TripType = (typeof tripTypes)[number];
 export type VehicleRate = (typeof vehicleRates)[number];
 
 export const farePolicy = {
-  minimumBillableKm: 130,
+  minimumBillableKm: 100,
   roundTripMinimumKm: 250,
+  roundTripKarnatakaMinimumKm: 300,
   driverBata: 400,
+  driverBataDropOver400Km: 600,
+  driverBataRoundTripPerDay: 500,
+  driverBataRoundTripOver500Km: 600,
+  waitingChargePerHour: 150,
+  nightCharge: 200,
+  petWashingSedan: 400,
+  petWashingMuv: 500,
+  luggageCharge: 300,
+  extraPersonCharge: 300,
+  hillStationSedan: 300,
+  hillStationMuv: 500,
 };
 
 export const getMinimumKmForTrip = (tripType: TripType) =>
@@ -119,13 +135,22 @@ export const calculateFareEstimate = (
   const rate = tripType === 'Round Trip' ? selectedVehicle.roundTrip : selectedVehicle.oneWay;
   const multiplier = tripType === 'Round Trip' ? 2 : 1;
   const baseFare = billableKm * rate * multiplier;
-  const totalFare = baseFare + farePolicy.driverBata;
+
+  let driverBata = farePolicy.driverBata;
+  if (tripType === 'Round Trip') {
+    const roundKm = actualKm * 2;
+    driverBata = roundKm > 500 ? farePolicy.driverBataRoundTripOver500Km : farePolicy.driverBataRoundTripPerDay;
+  } else {
+    driverBata = actualKm > 400 ? farePolicy.driverBataDropOver400Km : farePolicy.driverBata;
+  }
+
+  const totalFare = baseFare + driverBata;
 
   return {
     actualKm,
     baseFare,
     billableKm,
-    driverBata: farePolicy.driverBata,
+    driverBata,
     minimumKm,
     multiplier,
     rate,
@@ -133,25 +158,85 @@ export const calculateFareEstimate = (
   };
 };
 
+export interface TariffTermItem {
+  prefix: string;
+  text: string;
+  hasLuggagePolicyLink?: boolean;
+}
+
 export const tariffRules = {
-  gstNote: 'Per-km rates are inclusive of GST. Estimates include Rs.400 driver bata.',
+  heading: 'Drop Trips and Round Trips',
+  subheading: 'Below are the rates & Terms and Conditions for different type of vehicles.',
+  gstNote: 'Rates given above are inclusive of GST.',
+  title: 'Terms & Charges',
+  termsList: [
+    {
+      prefix: 'Drop Trips',
+      text: ' - Driver Batta Rs. 400. [Rs. 600 for above 400 kms] - Waiting Charges Rs. 150 per hour.',
+    },
+    {
+      prefix: 'Drop Trips',
+      text: ' - Minimum running must be 100 Kms.',
+    },
+    {
+      prefix: 'Round Trips',
+      text: ' - Driver batta is Rs. 500/- per day.',
+    },
+    {
+      prefix: 'Round Trips',
+      text: ' - Driver batta is Rs. 600/- per day if the distance travelled is more than 500kms in a single day.',
+    },
+    {
+      prefix: 'Round Trips',
+      text: ' - Minimum running must be 250 Kms per day. For Karnataka it is minimum 300 Kms per day.',
+    },
+    {
+      prefix: 'Round Trips',
+      text: ' - 1 day means 1 calendar day (from 00:00 hrs to 23:59 hrs)',
+    },
+    {
+      prefix: 'Hill station charges',
+      text: ' - Rs. 300 for sedan Rs.500 for MUV.',
+    },
+    {
+      prefix: 'Night Charges Rs. 200',
+      text: ' - Applicable if trip starts between 11 pm - 5 am only for Drop trip',
+    },
+    {
+      prefix: '',
+      text: 'Washing Charges for carrying Pet Rs. 400 for Sedan & Rs. 500 for MUV.',
+    },
+    {
+      prefix: '',
+      text: 'Luggage charges Rs. 300 for carrying extra Luggage. Check Luggage Policy for more details.',
+      hasLuggagePolicyLink: true,
+    },
+    {
+      prefix: '',
+      text: 'Only 2 (Pickup & drop) points are allowed. More than that charges will be applicable.',
+    },
+    {
+      prefix: '',
+      text: 'A charge of Rs. 300 applies for extra person',
+    },
+  ] as TariffTermItem[],
   dropTrip: [
-    'Driver bata Rs.400 is added automatically to every estimate.',
-    'Minimum billable distance is 130 km; shorter drop trips are billed as 130 km.',
-    'Waiting charges Rs.150 per hour.',
+    'Driver Batta Rs. 400. [Rs. 600 for above 400 kms] - Waiting Charges Rs. 150 per hour.',
+    'Minimum running must be 100 Kms.',
   ],
   roundTrip: [
-    'Driver bata Rs.400 is added automatically to every estimate.',
-    'Minimum running must be 250 km per day. For Karnataka, minimum is 300 km per day.',
-    '1 day means 1 calendar day from 00:00 hrs to 23:59 hrs.',
+    'Driver batta is Rs. 500/- per day.',
+    'Driver batta is Rs. 600/- per day if the distance travelled is more than 500kms in a single day.',
+    'Minimum running must be 250 Kms per day. For Karnataka it is minimum 300 Kms per day.',
+    '1 day means 1 calendar day (from 00:00 hrs to 23:59 hrs)',
   ],
   extraCharges: [
-    'Hill station charges: Rs.300 for Sedan and Rs.500 for MUV.',
-    'Night charges Rs.200 apply only for drop trips starting between 11 pm and 5 am.',
-    'Washing charges for carrying pets: Rs.400 for Sedan and Rs.500 for MUV.',
-    'Luggage charges Rs.300 for carrying extra luggage.',
-    'Only 2 pickup and drop points are allowed. More than that will be chargeable.',
-    'Extra person charge Rs.300.',
+    'Hill station charges - Rs. 300 for sedan Rs.500 for MUV.',
+    'Night Charges Rs. 200 - Applicable if trip starts between 11 pm - 5 am only for Drop trip',
+    'Washing Charges for carrying Pet Rs. 400 for Sedan & Rs. 500 for MUV.',
+    'Luggage charges Rs. 300 for carrying extra Luggage. Check Luggage Policy for more details.',
+    'Only 2 (Pickup & drop) points are allowed. More than that charges will be applicable.',
+    'A charge of Rs. 300 applies for extra person',
   ],
 };
 
@@ -965,22 +1050,22 @@ export const faqs = [
   {
     question: 'What is the minimum km for one way drop taxi?',
     answer:
-      'One way and airport drop trips have a minimum billable distance of 130 km, so shorter 50 km or 80 km trips are billed as 130 km. Round trips have a minimum of 250 km per day, and Karnataka round trips have a minimum of 300 km per day.',
+      'Drop trips have a minimum running distance of 100 Kms. Round trips have a minimum of 250 Kms per day (for Karnataka, minimum is 300 Kms per day).',
   },
   {
     question: 'Are toll and permit charges included?',
     answer:
-      'Per-km rates are inclusive of GST and the estimate includes Rs.400 driver bata. Toll, parking, interstate permit, waiting, night, hill station, pet, luggage, and extra stop charges are listed separately whenever they apply.',
+      'Per-km rates are inclusive of GST. Driver batta is Rs. 400 for drop trips (Rs. 600 for above 400 kms) and Rs. 500/- per day for round trips (Rs. 600/- per day if distance travelled is more than 500kms in a single day). Toll, parking, permit, and other charges are extra as applicable.',
   },
   {
-    question: 'What are the driver bata and waiting charges?',
+    question: 'What are the driver batta and waiting charges?',
     answer:
-      'Driver bata is a fixed Rs.400 and is included automatically in the displayed estimate for all trip types. Waiting charges are Rs.150 per hour when applicable.',
+      'Drop Trips: Driver Batta Rs. 400 (Rs. 600 for above 400 kms) and Waiting Charges Rs. 150 per hour. Round Trips: Driver batta is Rs. 500/- per day (Rs. 600/- per day for >500 kms in a single day).',
   },
   {
     question: 'What extra charges can apply?',
     answer:
-      'Night charges are Rs.200 for drop trips starting between 11 pm and 5 am. Hill station charge is Rs.300 for Sedan and Rs.500 for MUV. Pet washing, extra luggage, extra person, and extra pickup/drop point charges may apply.',
+      'Hill station charges: Rs. 300 for sedan, Rs. 500 for MUV. Night Charges Rs. 200 apply if trip starts between 11 pm - 5 am (only for Drop trip). Pet washing: Rs. 400 for Sedan & Rs. 500 for MUV. Extra luggage: Rs. 300. More than 2 pickup/drop points: extra charges applicable. Extra person: Rs. 300.',
   },
   {
     question: 'Can I book a taxi for early morning pickup?',

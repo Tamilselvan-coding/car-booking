@@ -26,9 +26,18 @@ export function RouteLanding({ route }: RouteLandingProps) {
   const relatedRoutes = seoRouteLandings
     .filter((item) => item.slug !== route.slug && (item.from === route.from || item.to === route.to))
     .slice(0, 6);
-  const whatsappText = encodeURIComponent(
-    `Hi Chettinad Express, I want to book ${route.from} to ${route.to} taxi. Please share live fare and driver availability.`,
-  );
+  const whatsappLines = [
+    '*🚖 Chettinad Express - Route Taxi Booking*',
+    '',
+    'Hi Chettinad Express, I want to book a taxi. Please share fare details & driver availability:',
+    '',
+    `• *Route:* ${route.from} to ${route.to}`,
+    `• *Approx Distance:* ${route.km} km`,
+    `• *Estimated Sedan Fare:* From Rs.${vehicleEstimates[0]?.estimate.totalFare.toLocaleString('en-IN')}`,
+    '',
+    'Please share vehicle options and confirm booking. Thank you!',
+  ];
+  const whatsappText = encodeURIComponent(whatsappLines.join('\n'));
   const routeUrl = `${brand.domain}/routes/${route.slug}`;
   const faqSchema = {
     '@context': 'https://schema.org',

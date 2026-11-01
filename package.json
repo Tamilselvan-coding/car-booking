@@ -11,6 +11,7 @@
     "test": "node --experimental-strip-types --test scripts/fare-policy.test.mjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.118.0",
     "lucide-react": "^0.576.0",
     "next": "^16.2.10",
     "react": "^19.2.0",
@@ -27,4 +28,3 @@
     "typescript": "^5.9.3"
   }
 }
-

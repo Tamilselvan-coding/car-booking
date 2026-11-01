@@ -1,4 +1,4 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 import { CheckCircle2 } from 'lucide-react';
 import { DestinationGallery } from '../components/DestinationGallery';
 import { FareWidget } from '../components/FareWidget';
@@ -79,7 +79,7 @@ export function OutstationTaxi() {
             </table>
           </div>
           <p className="mt-3 text-xs font-semibold leading-5 text-zinc-500">
-            Estimates include Rs.400 driver bata and the 130 km drop-trip minimum where applicable.
+            Estimates include Rs.400 driver batta and the 100 km drop-trip minimum where applicable.
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
             {routeSeoKeywords.map((keyword) => (

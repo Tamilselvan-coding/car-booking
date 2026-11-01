@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import type { BannerItem } from '../types/banner';
+import { fetchActiveBannersFromSupabase } from '../lib/supabase';
 
 interface OfferContextValue {
   isOpen: boolean;
@@ -20,6 +21,15 @@ export function OfferProvider({ children }: { children: ReactNode }) {
 
   const fetchActiveOffers = async () => {
     try {
+      // 1. Direct Supabase Cloud DB fetch
+      const activeData = await fetchActiveBannersFromSupabase();
+      if (Array.isArray(activeData) && activeData.length > 0) {
+        setBanners(activeData);
+        // Pop-up modal eliminated on page load: banners are embedded into the page content instead!
+        return;
+      }
+
+      // 2. Fallback to API if local server is active
       const res = await fetch('/api/banners/active', { cache: 'no-store' });
       const json = await res.json();
       if (json.status && Array.isArray(json.data)) {

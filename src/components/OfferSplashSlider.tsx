@@ -64,6 +64,8 @@ export function OfferSplashSlider({
   useEffect(() => {
     if (forceOpen || offerContext.isOpen) {
       setIsOpen(true);
+    } else {
+      setIsOpen(false);
     }
   }, [forceOpen, offerContext.isOpen]);
 
@@ -96,15 +98,12 @@ export function OfferSplashSlider({
     return () => clearInterval(interval);
   }, [isOpen, autoCloseEnabled, isPaused]);
 
-  // Close handler with session recording
+  // Close handler
   const handleClose = useCallback(() => {
     setIsOpen(false);
     offerContext.closeOffers();
-    if (!previewBanners) {
-      sessionStorage.setItem('ce_offer_splash_dismissed', 'true');
-    }
     if (onClose) onClose();
-  }, [previewBanners, onClose, offerContext]);
+  }, [onClose, offerContext]);
 
 
   // Escape key listener
@@ -171,6 +170,9 @@ export function OfferSplashSlider({
       aria-modal="true"
       aria-labelledby="offer-splash-title"
       className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-black/80 backdrop-blur-md animate-in fade-in duration-300"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) handleClose();
+      }}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

@@ -1,12 +1,15 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { CarFront } from 'lucide-react';
 import { useBookingModal } from '../context/BookingModalContext';
+import { LuggagePolicyModal } from '../components/LuggagePolicyModal';
 import { services, tariffRules, vehicleRates } from '../content';
 
 export function Services() {
   const { open: openBooking } = useBookingModal();
+  const [showLuggageModal, setShowLuggageModal] = useState(false);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
@@ -47,53 +50,90 @@ export function Services() {
       </div>
 
       <div id="tariff" className="mt-14 scroll-mt-28">
-        <p className="text-sm font-black uppercase tracking-wide text-teal-700">Tariff</p>
-        <h2 className="mt-1 text-2xl font-black">Fleet & tariff</h2>
-        <div className="table-wrap mt-6 overflow-x-auto rounded-lg border border-zinc-200 bg-white">
-          <table className="w-full min-w-[620px] text-left text-sm">
-            <thead className="bg-amber-400 text-zinc-950">
-              <tr>
-                <th scope="col" className="px-4 py-4 text-base font-black uppercase">Vehicle type</th>
-                <th scope="col" className="px-4 py-4 text-base font-black uppercase">Drop trip<br />Rate / Km</th>
-                <th scope="col" className="px-4 py-4 text-base font-black uppercase">Round trip<br />Rate / Km</th>
+        <div>
+          <h2 className="text-2xl font-black text-zinc-950 sm:text-3xl">Drop Trips and Round Trips</h2>
+          <p className="mt-1 text-sm sm:text-base font-semibold text-zinc-800">
+            Below are the rates &amp; Terms and Conditions for different type of vehicles.
+          </p>
+        </div>
+
+        <div className="table-wrap mt-6 overflow-x-auto rounded-lg border border-zinc-300 bg-white shadow-sm">
+          <table className="w-full min-w-[620px] text-left text-sm border-collapse">
+            <thead className="bg-[#f59e0b] text-zinc-950">
+              <tr className="divide-x divide-amber-600/30">
+                <th scope="col" className="px-4 py-4 text-sm sm:text-base font-black uppercase tracking-wider">
+                  VEHICLE TYPE
+                </th>
+                <th scope="col" className="px-4 py-4 text-sm sm:text-base font-black uppercase tracking-wider">
+                  DROP TRIP<br />Rate / Km
+                </th>
+                <th scope="col" className="px-4 py-4 text-sm sm:text-base font-black uppercase tracking-wider">
+                  ROUND TRIP<br />Rate / Km
+                </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-zinc-200">
               {vehicleRates.map((vehicle) => (
-                <tr key={vehicle.name} className="border-t border-zinc-200">
+                <tr key={vehicle.name} className="divide-x divide-zinc-200 hover:bg-zinc-50/60 transition">
                   <td className="px-4 py-4">
-                    <p className="text-lg font-black text-zinc-950">
-                      {vehicle.name} <span className="text-base">({vehicle.seats.replace(' seats', '')})</span>
-                    </p>
-                    <p className="mt-1 text-sm font-semibold leading-6 text-zinc-700">({vehicle.examples})</p>
+                    {vehicle.name === 'Innova Crysta' ? (
+                      <p className="text-base font-black text-zinc-950">
+                        Innova Crysta <span className="font-semibold text-zinc-800">(Innova Crysta)</span>
+                      </p>
+                    ) : (
+                      <>
+                        <p className="text-base font-black text-zinc-950">
+                          {vehicle.name} ({vehicle.seats.replace(' seats', '')})
+                        </p>
+                        <p className="mt-1 text-xs sm:text-sm font-medium leading-5 text-zinc-700">
+                          ({vehicle.examples})
+                        </p>
+                      </>
+                    )}
                   </td>
-                  <td className="px-4 py-4 text-lg font-semibold text-zinc-950">{vehicle.oneWay}</td>
-                  <td className="px-4 py-4 text-lg font-semibold text-zinc-950">{vehicle.roundTrip}</td>
+                  <td className="px-4 py-4 text-base font-bold text-zinc-950">{vehicle.oneWay}</td>
+                  <td className="px-4 py-4 text-base font-bold text-zinc-950">{vehicle.roundTrip}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <div className="mt-8 space-y-5 text-sm leading-7 text-zinc-800">
-          <p className="text-base font-black text-zinc-950">{tariffRules.gstNote}</p>
-          {[
-            ['Drop Trips', tariffRules.dropTrip],
-            ['Round Trips', tariffRules.roundTrip],
-            ['Extra Charges', tariffRules.extraCharges],
-          ].map(([title, rules]) => (
-            <div key={title as string} className="grid gap-3">
-              {(rules as string[]).map((rule) => (
-                <p key={rule}>
-                  {(title as string) !== 'Extra Charges' ? (
-                    <span className="font-black text-zinc-950">{title as string} - </span>
-                  ) : null}
-                  {rule}
-                </p>
-              ))}
-            </div>
-          ))}
+
+        <p className="mt-4 text-sm font-bold text-zinc-900">
+          Rates given above are inclusive of GST.
+        </p>
+
+        <div className="mt-8 rounded-xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
+          <h3 className="text-xl font-black text-zinc-950">Terms &amp; Charges</h3>
+          <div className="mt-4 space-y-3 text-sm leading-relaxed text-zinc-800">
+            {tariffRules.termsList.map((item, idx) => (
+              <p key={idx} className="text-zinc-900">
+                {item.prefix ? <span className="font-black text-zinc-950">{item.prefix}</span> : null}
+                {item.hasLuggagePolicyLink ? (
+                  <>
+                    {'Luggage charges Rs. 300 for carrying extra Luggage. Check '}
+                    <button
+                      type="button"
+                      onClick={() => setShowLuggageModal(true)}
+                      className="text-teal-700 underline font-bold hover:text-teal-900 cursor-pointer"
+                    >
+                      Luggage Policy
+                    </button>
+                    {' for more details.'}
+                  </>
+                ) : (
+                  item.text
+                )}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
+
+      <LuggagePolicyModal
+        isOpen={showLuggageModal}
+        onClose={() => setShowLuggageModal(false)}
+      />
     </div>
   );
 }

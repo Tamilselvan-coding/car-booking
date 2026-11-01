@@ -24,6 +24,7 @@ import {
 import { useBookingModal } from '../context/BookingModalContext';
 import { CityAutocomplete } from './CityAutocomplete';
 import { TamilNaduMap } from './TamilNaduMap';
+import { saveBookingToSupabase } from '../lib/supabase';
 
 const stepLabels = ['Trip', 'Ride', 'Details', 'Confirm'];
 
@@ -148,12 +149,28 @@ export function BookingModal() {
 
   const phoneValid = /^\d{10}$/.test(phone.replace(/\D/g, ''));
 
-  const summaryLine = `${pickup} to ${drop}, ${tripType}, ${vehicle}, ${fareEstimate.actualKm} km`;
-  const prefilledWhatsapp = encodeURIComponent(
-    `${whatsappMessage} Route: ${summaryLine}. Billable distance: ${fareEstimate.billableKm} km. Estimated total: Rs.${fareEstimate.totalFare.toLocaleString('en-IN')} including Rs.${fareEstimate.driverBata} driver bata. Date: ${date || 'flexible'} ${time || ''}. Name: ${
-      name || 'not given'
-    }. Phone: ${phone || 'not given'}.`,
-  );
+  const travelDateTime = date ? `${date}${time ? ` ${time}` : ''}` : 'Flexible';
+  const whatsappLines = [
+    '*🚖 Chettinad Express - Taxi Booking Request*',
+    '',
+    'Hi Chettinad Express, I want to book a taxi. Please share fare details & booking confirmation:',
+    '',
+    `• *Pickup Location:* ${pickup}`,
+    `• *Drop Location:* ${drop}`,
+    `• *Trip Type:* ${tripType}`,
+    `• *Vehicle Type:* ${vehicle}`,
+    `• *Actual Route:* ${fareEstimate.actualKm} km`,
+    `• *Billable Distance:* ${fareEstimate.billableKm} km`,
+    `• *Estimated Total:* Rs.${fareEstimate.totalFare.toLocaleString('en-IN')} (incl. Rs.${fareEstimate.driverBata} driver bata)`,
+    `• *Travel Date & Time:* ${travelDateTime}`,
+    `• *Customer Name:* ${name?.trim() || 'Not given'}`,
+    `• *Phone:* ${phone?.trim() || 'Not given'}`,
+    ...(initialData?.offerCode ? [`• *Offer Code:* ${initialData.offerCode}`] : []),
+    ...(initialData?.offerPrice ? [`• *Offer Price:* Rs.${Number(initialData.offerPrice).toLocaleString('en-IN')}`] : []),
+    '',
+    'Please confirm availability and booking details. Thank you!',
+  ];
+  const prefilledWhatsapp = encodeURIComponent(whatsappLines.join('\n'));
   const waLink = `https://wa.me/${brand.cleanPhone}?text=${prefilledWhatsapp}`;
   const telLink = `tel:${brand.cleanPhone}`;
 
@@ -230,25 +247,29 @@ export function BookingModal() {
 
   const handleConfirm = () => {
     setSubmitted(true);
-    // Save to backend database
-    fetch('/api/bookings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        customer_name: name || 'Customer',
-        phone,
-        pickup,
-        drop,
-        vehicle,
-        trip_type: tripType,
-        date: date || new Date().toISOString().slice(0, 10),
-        time: time || '10:00',
-        estimated_fare: fareEstimate.totalFare,
-        offer_code: initialData?.offerCode,
-        offer_price: initialData?.offerPrice,
-        source: initialData?.offerCode ? 'Offer Slider' : 'Direct Booking',
-      }),
-    }).catch((err) => console.error('Failed to save booking order to backend:', err));
+    const bookingPayload = {
+      customer_name: name || 'Customer',
+      phone,
+      pickup,
+      drop,
+      vehicle,
+      trip_type: tripType,
+      date: date || new Date().toISOString().slice(0, 10),
+      time: time || '10:00',
+      estimated_fare: fareEstimate.totalFare,
+      offer_code: initialData?.offerCode,
+      source: (initialData?.offerCode ? 'Offer Slider' : 'Direct Booking') as 'Offer Slider' | 'Direct Booking',
+    };
+
+    // Save directly to Supabase Cloud Database (works everywhere, including static export)
+    saveBookingToSupabase(bookingPayload).catch((err) => {
+      console.warn('Supabase booking save fallback to /api/bookings:', err);
+      fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bookingPayload),
+      }).catch((e) => console.error('Failed to save booking order to backend:', e));
+    });
 
     window.open(waLink, '_blank', 'noopener,noreferrer');
   };

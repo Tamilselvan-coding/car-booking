@@ -8,6 +8,7 @@ import { OfferProvider } from '../context/OfferContext';
 import { LanguageProvider } from '../context/LanguageContext';
 import { OfferSplashSlider } from '../components/OfferSplashSlider';
 import { FloatingOfferButton } from '../components/FloatingOfferButton';
+import { WhatsAppChatbot } from '../components/WhatsAppChatbot';
 
 export function AppShell({ children }: { children: ReactNode }) {
   return (
@@ -18,6 +19,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <BookingModal />
           <OfferSplashSlider />
           <FloatingOfferButton />
+          <WhatsAppChatbot />
         </OfferProvider>
       </BookingModalProvider>
     </LanguageProvider>

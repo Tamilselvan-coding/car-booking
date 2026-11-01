@@ -1,5 +1,7 @@
-﻿import type { MetadataRoute } from 'next';
+import type { MetadataRoute } from 'next';
 import { brand, seoRouteLandings } from '../content';
+
+export const dynamic = 'force-static';
 
 const staticRoutes = [
   { path: '/', priority: 1, changeFrequency: 'weekly' as const },

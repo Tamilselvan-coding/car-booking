@@ -7,6 +7,7 @@ import { CarFront, Menu, MessageCircle, Phone, X, ShieldCheck } from 'lucide-rea
 import { brand, navItems, whatsappMessage } from '../content';
 import { useBookingModal } from '../context/BookingModalContext';
 import { BrandLogo } from './BrandLogo';
+import { LanguageToggle } from './LanguageToggle';
 
 const getPathOnly = (href: string) => href.split('#')[0] || '/';
 
@@ -61,9 +62,10 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           <div className="mx-auto flex h-9 max-w-7xl items-center justify-between gap-4 px-4 text-xs font-bold sm:px-6">
             <p className="truncate text-zinc-300">
               <span className="mr-2 inline-flex h-2 w-2 rounded-full bg-amber-400" />
-              24/7 Tamil Nadu taxi booking - Rs.15/km Sedan, 130 km minimum, Rs.400 bata included
+              24/7 Tamil Nadu taxi booking - Rs.15/km Sedan, 100 km minimum, Rs.400 bata included
             </p>
-            <div className="flex shrink-0 items-center gap-5">
+            <div className="flex shrink-0 items-center gap-4">
+              <LanguageToggle />
               <a href={telLink} className="inline-flex items-center gap-1.5 text-zinc-200 transition hover:text-amber-300">
                 <Phone aria-hidden="true" className="h-3.5 w-3.5" /> {brand.phone}
               </a>
@@ -93,6 +95,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             </nav>
 
             <div className="hidden items-center gap-2 xl:flex">
+              <LanguageToggle />
               <button
                 type="button"
                 onClick={openBooking}
@@ -115,6 +118,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             </div>
 
             <div className="flex items-center gap-2 xl:hidden">
+              <LanguageToggle />
               <button
                 type="button"
                 className="grid h-11 w-11 place-items-center rounded-lg border border-zinc-200 bg-white shadow-sm"
@@ -241,33 +245,25 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         </div>
       </footer>
 
-      <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-3 lg:hidden">
+      <div className="fixed bottom-4 right-4 z-40 flex items-center gap-2 lg:hidden">
+        <a
+          href={telLink}
+          aria-label="Call now"
+          className="flex h-11 items-center gap-1.5 rounded-full bg-amber-400 px-3.5 text-xs font-black text-zinc-950 shadow-xl shadow-amber-900/20 border-2 border-white transition active:scale-95"
+        >
+          <Phone aria-hidden="true" className="h-3.5 w-3.5" />
+          <span>Call: {brand.phone}</span>
+        </a>
         <button
           type="button"
           onClick={openBooking}
           aria-label="Book taxi"
-          className="shine-button inline-flex h-12 items-center gap-2 rounded-full bg-zinc-950 px-5 text-sm font-black text-white shadow-xl shadow-zinc-950/30"
+          className="shine-button inline-flex h-11 items-center gap-1.5 rounded-full bg-zinc-950 px-3.5 text-xs font-black text-white shadow-xl shadow-zinc-950/30 border-2 border-white transition active:scale-95"
         >
-          <CarFront aria-hidden="true" className="h-4 w-4" /> Book Taxi
+          <CarFront aria-hidden="true" className="h-3.5 w-3.5" />
+          <span>Book Cab</span>
         </button>
-        <a
-          href={waLink}
-          aria-label="WhatsApp enquiry"
-          className="grid h-14 w-14 place-items-center rounded-full bg-teal-700 p-3.5 text-white shadow-xl shadow-teal-950/20"
-        >
-          <MessageCircle aria-hidden="true" className="h-6 w-6" />
-        </a>
-        <a
-          href={telLink}
-          aria-label="Call now"
-          className="grid h-14 w-14 place-items-center rounded-full bg-amber-500 p-3.5 text-zinc-950 shadow-xl shadow-amber-900/20"
-        >
-          <Phone aria-hidden="true" className="h-6 w-6" />
-        </a>
       </div>
     </div>
   );
 }
-
-
-

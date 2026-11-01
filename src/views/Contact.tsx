@@ -7,9 +7,16 @@ import { brand, whatsappMessage } from '../content';
 
 export function Contact() {
   const [selectedCity, setSelectedCity] = useState(brand.city);
-  const waLink = `https://wa.me/${brand.cleanPhone}?text=${encodeURIComponent(
-    `${whatsappMessage} My city: ${selectedCity}.`,
-  )}`;
+  const whatsappLines = [
+    '*🚖 Chettinad Express - Taxi Booking Enquiry*',
+    '',
+    'Hi Chettinad Express, I want to book a taxi:',
+    '',
+    `• *Pickup City / Area:* ${selectedCity}`,
+    '',
+    'Please share available routes and fare estimates. Thank you!',
+  ];
+  const waLink = `https://wa.me/${brand.cleanPhone}?text=${encodeURIComponent(whatsappLines.join('\n'))}`;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">

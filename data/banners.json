@@ -1,28 +1,5 @@
 [
   {
-    "id": 4,
-    "title": "Chennai to Madurai Special Drop",
-    "from_city": "Chennai",
-    "to_city": "Coimbatore",
-    "vehicle_type": "SUV (Ertiga)",
-    "available_vehicles": [
-      "Sedan (Dzire / Etios)",
-      "SUV (Ertiga)",
-      "Innova Crysta"
-    ],
-    "trip_type": "Round Trip",
-    "actual_price": 6800,
-    "offer_price": 4999,
-    "from_date": "2026-10-01",
-    "to_date": "2026-10-15",
-    "quotation_ref": "QT-CHM-622",
-    "quotation_details": "Includes toll allowance, ₹400 driver bata, AC ride, zero surge.",
-    "banner_image": "/images/special-offer-banner.jpg",
-    "is_active": true,
-    "created_at": "2026-10-01T06:26:55.280Z",
-    "updated_at": "2026-10-01T06:26:55.280Z"
-  },
-  {
     "id": 1,
     "title": "Chennai to Madurai Festive Special Drop",
     "from_city": "Chennai",
@@ -37,14 +14,14 @@
     "trip_type": "One Way",
     "actual_price": 6800,
     "offer_price": 4999,
-    "from_date": "2026-10-01",
-    "to_date": "2026-10-15",
+    "from_date": "2026-11-01",
+    "to_date": "2026-11-30",
     "quotation_ref": "QT-CHM-2026-778",
     "quotation_details": "All-inclusive toll allowance, ₹400 driver bata included, sanitized AC car, zero hidden charges.",
-    "banner_image": "/images/special-offer-banner.jpg",
+    "banner_image": "/images/destination-madurai.png",
     "is_active": true,
-    "created_at": "2026-10-01T06:00:00.000Z",
-    "updated_at": "2026-10-01T06:00:00.000Z"
+    "created_at": "2026-11-01T06:00:00.000Z",
+    "updated_at": "2026-11-01T06:00:00.000Z"
   },
   {
     "id": 2,
@@ -60,21 +37,44 @@
     "trip_type": "One Way",
     "actual_price": 5400,
     "offer_price": 3999,
-    "from_date": "2026-09-28",
-    "to_date": "2026-10-20",
+    "from_date": "2026-11-01",
+    "to_date": "2026-11-30",
     "quotation_ref": "QT-TRC-2026-902",
-    "quotation_details": "Doorstep pickup anywhere in Trichy, express highway drop to Chennai with driver allowance.",
+    "quotation_details": "Doorstep pickup anywhere in Trichy, express highway drop to Chennai with ₹400 driver allowance and toll.",
     "banner_image": "/images/destination-trichy.png",
     "is_active": true,
-    "created_at": "2026-10-01T06:30:00.000Z",
-    "updated_at": "2026-10-01T06:30:00.000Z"
+    "created_at": "2026-11-01T06:30:00.000Z",
+    "updated_at": "2026-11-01T06:30:00.000Z"
   },
   {
     "id": 3,
-    "title": "Coimbatore to Bangalore Highway Special",
+    "title": "Coimbatore to Ooty Hill Station Tour Offer",
     "from_city": "Coimbatore",
-    "to_city": "Bangalore",
+    "to_city": "Ooty",
     "vehicle_type": "SUV (Ertiga)",
+    "available_vehicles": [
+      "Sedan (Dzire / Etios)",
+      "SUV (Ertiga)",
+      "Innova Crysta"
+    ],
+    "trip_type": "Round Trip",
+    "actual_price": 5200,
+    "offer_price": 3899,
+    "from_date": "2026-11-01",
+    "to_date": "2026-11-30",
+    "quotation_ref": "QT-CBE-OOTY",
+    "quotation_details": "Includes hill permit, fuel, toll, experienced ghat driver and ₹500 driver bata.",
+    "banner_image": "/images/destination-coimbatore.png",
+    "is_active": true,
+    "created_at": "2026-11-01T07:00:00.000Z",
+    "updated_at": "2026-11-01T07:00:00.000Z"
+  },
+  {
+    "id": 4,
+    "title": "Bangalore to Chennai Executive Highway Ride",
+    "from_city": "Bangalore",
+    "to_city": "Chennai",
+    "vehicle_type": "Innova Crysta",
     "available_vehicles": [
       "Sedan (Dzire / Etios)",
       "SUV (Ertiga)",
@@ -82,14 +82,14 @@
     ],
     "trip_type": "One Way",
     "actual_price": 7800,
-    "offer_price": 5999,
-    "from_date": "2026-10-05",
-    "to_date": "2026-10-25",
-    "quotation_ref": "QT-COB-2026-301",
-    "quotation_details": "Interstate tax included, clean 7-seater SUV, 24/7 highway assistance.",
-    "banner_image": "/images/destination-coimbatore.png",
-    "is_active": false,
-    "created_at": "2026-10-01T07:00:00.000Z",
-    "updated_at": "2026-10-01T07:00:00.000Z"
+    "offer_price": 6200,
+    "from_date": "2026-11-01",
+    "to_date": "2026-11-30",
+    "quotation_ref": "QT-BLR-CHN",
+    "quotation_details": "Interstate tax included, highway expressway route, free waiting 30 mins, verified driver.",
+    "banner_image": "/images/destination-chennai.png",
+    "is_active": true,
+    "created_at": "2026-11-01T07:30:00.000Z",
+    "updated_at": "2026-11-01T07:30:00.000Z"
   }
 ]

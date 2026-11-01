@@ -186,9 +186,26 @@ export function FareWidget({ showMap = true, defaultPickup = 'Chennai', defaultD
     );
   };
 
-  const prefilledWhatsapp = encodeURIComponent(
-    `${whatsappMessage} Route: ${pickup} to ${drop}, ${tripType}, ${vehicle}. Date: ${pickupDate || 'flexible'} ${pickupTime || ''}. Actual route: ${fareEstimate.actualKm} km. Billable distance: ${fareEstimate.billableKm} km. Estimated total: Rs.${fareEstimate.totalFare.toLocaleString('en-IN')} including Rs.${fareEstimate.driverBata} driver bata. Name: ${customerName || 'not given'}. Phone: ${customerPhone || 'not given'}.`,
-  );
+  const travelDateTime = pickupDate ? `${pickupDate}${pickupTime ? ` ${pickupTime}` : ''}` : 'Flexible';
+  const whatsappLines = [
+    '*🚖 Chettinad Express - Taxi Booking Request*',
+    '',
+    'Hi Chettinad Express, I want to book a taxi. Please share fare details & booking confirmation:',
+    '',
+    `• *Pickup Location:* ${pickup}`,
+    `• *Drop Location:* ${drop}`,
+    `• *Trip Type:* ${tripType}`,
+    `• *Vehicle Type:* ${vehicle}`,
+    `• *Actual Route:* ${fareEstimate.actualKm} km`,
+    `• *Billable Distance:* ${fareEstimate.billableKm} km`,
+    `• *Estimated Total:* Rs.${fareEstimate.totalFare.toLocaleString('en-IN')} (incl. Rs.${fareEstimate.driverBata} driver bata)`,
+    `• *Travel Date & Time:* ${travelDateTime}`,
+    `• *Customer Name:* ${customerName?.trim() || 'Not given'}`,
+    `• *Phone:* ${customerPhone?.trim() || 'Not given'}`,
+    '',
+    'Please confirm availability and booking details. Thank you!',
+  ];
+  const prefilledWhatsapp = encodeURIComponent(whatsappLines.join('\n'));
 
   return (
     <div className="reveal-up grid min-w-0 gap-4">

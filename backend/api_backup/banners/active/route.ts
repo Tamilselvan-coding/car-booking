@@ -14,6 +14,7 @@ export async function GET() {
       method: 'GET',
       headers: { Accept: 'application/json' },
       cache: 'no-store',
+      signal: AbortSignal.timeout(800),
     });
 
     if (res.ok) {

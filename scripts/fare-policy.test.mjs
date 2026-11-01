@@ -12,26 +12,26 @@ const suv = vehicleRates.find((vehicle) => vehicle.name === 'SUV');
 assert.ok(sedan, 'Sedan tariff must exist');
 assert.ok(suv, 'SUV tariff must exist');
 
-test('one-way trips below 130 km use the 130 km minimum', () => {
-  for (const distanceKm of [50, 80, 129, 130]) {
+test('one-way trips below 100 km use the 100 km minimum', () => {
+  for (const distanceKm of [50, 80, 99, 100]) {
     const sedanFare = calculateFareEstimate('One Way', distanceKm, sedan);
     const suvFare = calculateFareEstimate('One Way', distanceKm, suv);
 
-    assert.equal(sedanFare.billableKm, 130);
-    assert.equal(sedanFare.totalFare, 130 * 15 + 400);
-    assert.equal(suvFare.billableKm, 130);
-    assert.equal(suvFare.totalFare, 130 * 20 + 400);
+    assert.equal(sedanFare.billableKm, 100);
+    assert.equal(sedanFare.totalFare, 100 * 15 + 400);
+    assert.equal(suvFare.billableKm, 100);
+    assert.equal(suvFare.totalFare, 100 * 20 + 400);
   }
 });
 
-test('one-way trips beyond 130 km progress at the selected per-km rate', () => {
-  const sedanFare = calculateFareEstimate('One Way', 131, sedan);
-  const suvFare = calculateFareEstimate('One Way', 131, suv);
+test('one-way trips beyond 100 km progress at the selected per-km rate', () => {
+  const sedanFare = calculateFareEstimate('One Way', 101, sedan);
+  const suvFare = calculateFareEstimate('One Way', 101, suv);
 
-  assert.equal(sedanFare.billableKm, 131);
-  assert.equal(sedanFare.totalFare, 131 * 15 + 400);
-  assert.equal(suvFare.billableKm, 131);
-  assert.equal(suvFare.totalFare, 131 * 20 + 400);
+  assert.equal(sedanFare.billableKm, 101);
+  assert.equal(sedanFare.totalFare, 101 * 15 + 400);
+  assert.equal(suvFare.billableKm, 101);
+  assert.equal(suvFare.totalFare, 101 * 20 + 400);
 });
 
 test('driver bata is added exactly once to every estimate', () => {

@@ -8,11 +8,20 @@ export function FloatingOfferButton() {
 
   if (activeCount === 0 || isOpen) return null;
 
+  const handleClick = () => {
+    const bannerEl = document.getElementById('promotional-offers');
+    if (bannerEl) {
+      bannerEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      openOffers();
+    }
+  };
+
   return (
-    <div className="fixed bottom-6 right-6 z-40 animate-bounce">
+    <div className="fixed bottom-6 left-6 z-40 animate-bounce hidden sm:block">
       <button
         type="button"
-        onClick={openOffers}
+        onClick={handleClick}
         className="group flex items-center gap-2.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 px-4 py-3 text-xs sm:text-sm font-black text-zinc-950 shadow-2xl shadow-amber-500/50 transition-all hover:scale-105 active:scale-95 border-2 border-white/80"
         aria-label="View special route offers"
       >
